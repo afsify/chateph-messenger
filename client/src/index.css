@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cabin&family=Montserrat:wght@100;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: "Raleway", sans-serif;
+  }
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: #000;
+}
+
+.ant-btn {
+  background-color: #081a51;
+  color: white;
+}
+
+* {
+  padding: 0%;
+  margin: 0%;
+  box-sizing: border-box;
+}
+
+.scrollable-container {
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  scrollbar-color: #354c87 #333333;
+  overflow: auto;
+}
+
+.scrollable-container::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+  border-radius: 18px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background-color: #354c87;
+  border-radius: 18px;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb:hover {
+  background-color: #132b68;
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+  background-color: #333333;
+  border-radius: 18px;
+}
+
+.scrollable-container::-webkit-scrollbar-track:hover {
+  background-color: #292929;
+}
+
+input[type="text"]:focus ~ .input-text,
+input[type="text"]:not(:placeholder-shown) ~ .input-text {
+  @apply text-blue-500 text-lg transform -translate-y-6 -translate-x-1 scale-75;
+}
