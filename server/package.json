@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "npm i",
     "start": "nodemon index.js"
   },
   "author": "",
