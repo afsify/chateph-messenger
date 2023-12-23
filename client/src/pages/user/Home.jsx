@@ -115,11 +115,11 @@ const Home = () => {
             }
             title={
               <div className="flex-col items-center">
-                <h1 className="text-[13px] capitalize font-semibold">
+                <h1 className="text-[13px] font-semibold">
                   {user.name}
                 </h1>
                 <h1 className="text-xs text-gray-500 font-sans">
-                  {user.email}
+                  {user.place}
                 </h1>
               </div>
             }
