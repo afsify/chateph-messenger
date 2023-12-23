@@ -1,6 +1,6 @@
-import imageLinks from "../../assets/images/imageLinks";
-import PropTypes from "prop-types";
 import { Skeleton } from "antd";
+import PropTypes from "prop-types";
+import imageLinks from "../../assets/images/imageLinks";
 
 function DefaultWindow({ skeleton }) {
   return (
@@ -16,7 +16,7 @@ function DefaultWindow({ skeleton }) {
               )}
             </div>
             <h1 className="text-2xl mt-2">Welcome to ChatHub</h1>
-            <h1 className="text-sm text-center mt-1">Please select a chat</h1>
+            <h1 className="text-xs text-center mt-1">Chats and accounts last only 24 hours</h1>
           </div>
         </div>
       </div>

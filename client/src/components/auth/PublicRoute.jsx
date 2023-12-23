@@ -1,14 +1,14 @@
+import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { getAdmin } from "../../api/services/adminService";
 import { getUser } from "../../api/services/userService";
+import { getAdmin } from "../../api/services/adminService";
 import { showLoading, hideLoading } from "../../utils/alertSlice";
-import PropTypes from "prop-types";
 
 function PublicRoute({ role, route }) {
-  const [auth, setAuth] = useState(null);
   const dispatch = useDispatch();
+  const [auth, setAuth] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {

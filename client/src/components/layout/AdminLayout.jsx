@@ -1,53 +1,33 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import { adminPath } from "../../routes/routeConfig";
 import { adminActions } from "../../utils/adminSlice";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  BarChartOutlined,
+  MenuOutlined,
   TeamOutlined,
-  SettingOutlined,
-  MessageOutlined,
+  CloseOutlined,
   LeftCircleFilled,
   PoweroffOutlined,
-  MenuOutlined,
-  CloseOutlined,
 } from "@ant-design/icons";
-import PropTypes from "prop-types";
-import { adminPath } from "../../routes/routeConfig";
 
 function AdminLayout({ children }) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(true);
   const [nav, setNav] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const adminMenu = [
     {
       id: 1,
-      title: "Dashboard",
-      icon: <BarChartOutlined />,
-      path: `/admin/${adminPath.dashboard}`,
-    },
-    {
-      id: 2,
       title: "Users",
       icon: <TeamOutlined />,
       path: `/admin/${adminPath.userManage}`,
     },
-    {
-      id: 3,
-      title: "Settings",
-      icon: <SettingOutlined />,
-      path: `/admin/${adminPath.settings}`,
-    },
-    {
-      id: 4,
-      title: "Messages",
-      icon: <MessageOutlined />,
-      path: `/admin/${adminPath.messageSession}`,
-    },
   ];
+
   return (
     <div className="container mx-auto flex">
       <aside className="h-screen px-2 hidden md:flex">
@@ -155,10 +135,10 @@ function AdminLayout({ children }) {
         <div className="w-[99%] bg-dark-purple py-4 flex justify-around items-center px-4 shadow-black shadow-md rounded-2xl">
           <div className="flex justify-around w-full container items-center">
             <div
-              onClick={() => navigate(`/admin/${adminPath.messageSession}`)}
+              onClick={() => navigate(`/admin/${adminPath.userManage}`)}
               className="flex items-center text-white hover:bg-light-white transition duration-300 cursor-pointer rounded-xl px-2 text-2xl"
             >
-              <MessageOutlined />
+              <TeamOutlined />
             </div>
             {nav ? (
               <div
@@ -176,10 +156,14 @@ function AdminLayout({ children }) {
               </div>
             )}
             <div
-              onClick={() => navigate(`/admin/${adminPath.settings}`)}
+              onClick={() => {
+                localStorage.removeItem("adminToken");
+                dispatch(adminActions.adminLogout());
+                navigate(`/admin/${adminPath.signin}`);
+              }}
               className="flex items-center text-white hover:bg-light-white transition duration-300 cursor-pointer rounded-xl px-2 text-2xl"
             >
-              <SettingOutlined />
+              <PoweroffOutlined />
             </div>
           </div>
         </div>

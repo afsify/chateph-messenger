@@ -13,15 +13,6 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  phone: {
-    type: Number,
-  },
-  place: {
-    type: String,
-  },
-  image: {
-    type: String,
-  },
 });
 
 const adminModel = mongoose.model("admins", adminSchema);

@@ -1,9 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Toaster from "./components/constant/Toaster";
-import Spinner from "./components/constant/Spinner";
-import AdminRoute from "./routes/AdminRoute";
 import UserRoute from "./routes/UserRoute";
+import AdminRoute from "./routes/AdminRoute";
 import { ConfigProvider, theme } from "antd";
+import Spinner from "./components/constant/Spinner";
+import Toaster from "./components/constant/Toaster";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (

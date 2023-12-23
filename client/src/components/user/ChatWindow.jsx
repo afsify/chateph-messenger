@@ -1,19 +1,18 @@
-import { useState, useEffect, useRef } from "react";
-import { listMessage, sendMessage } from "../../api/services/userService";
-import io from "socket.io-client";
-import toast from "react-hot-toast";
-import imageLinks from "../../assets/images/imageLinks";
-import PropTypes from "prop-types";
 import Name from "./Name";
+import io from "socket.io-client";
+import PropTypes from "prop-types";
+import toast from "react-hot-toast";
+import Linkify from "react-linkify";
 import AccountModal from "./AccountModal";
+import EmojiInput from "react-input-emoji";
 import { format as timeAgo } from "timeago.js";
-import { Button, Skeleton, Input } from "antd";
-import { ArrowLeftOutlined } from "@ant-design/icons";
-const ENDPOINT = "http://localhost:5000";
-var socket, selectedChatCompare;
-
-import { Spin, Tooltip } from "antd";
 import ScrollableFeed from "react-scrollable-feed";
+import { useState, useEffect, useRef } from "react";
+import { Button, Skeleton, Spin, Tooltip } from "antd";
+import imageLinks from "../../assets/images/imageLinks";
+import { SendOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { listMessage, sendMessage } from "../../api/services/userService";
+var socket, selectedChatCompare;
 
 function ChatWindow({
   userData,
@@ -25,14 +24,14 @@ function ChatWindow({
   toggleAccountModal,
   isAccountModalVisible,
 }) {
-  const [messages, setMessage] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [newMessage, setNewMessage] = useState("");
-  const [socketConnected, setSocketConnected] = useState(false);
-  const [typing, setTyping] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
-  const [fetchAgain, setFetchAgain] = useState(false);
   const messagesEndRef = useRef(null);
+  const [messages, setMessage] = useState([]);
+  const [typing, setTyping] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [newMessage, setNewMessage] = useState("");
+  const [fetchAgain, setFetchAgain] = useState(false);
+  const [socketConnected, setSocketConnected] = useState(false);
 
   const fetchMessage = async () => {
     if (!selectedChat) return;
@@ -79,7 +78,7 @@ function ChatWindow({
   };
 
   useEffect(() => {
-    socket = io(ENDPOINT);
+    socket = io(import.meta.env.VITE_USER_URL);
     socket.emit("setup", userData);
     socket.on("connected", () => setSocketConnected(true));
     socket.on("typing", () => setIsTyping(true));
@@ -109,9 +108,9 @@ function ChatWindow({
     });
   });
 
-  const typingHandler = (e) => {
-    setNewMessage(e.target.value);
-    if (!socketConnected) return;
+  const typingHandler = (text) => {
+    setNewMessage(text);
+    if (socketConnected) return;
     if (!typing) {
       setTyping(true);
       socket.emit("typing", selectedChat._id);
@@ -158,51 +157,32 @@ function ChatWindow({
       <div className="bg-light-gray w-full pt-6 px-2 relative duration-300 overflow-y-scroll scrollable-container">
         <Name>
           <div className="flex items-center">
-            {selectedChat.isGroupChat ? (
-              selectedChat.users.slice(0, 3).map((user, index) => (
-                <div
-                  key={user._id}
-                  style={{ marginLeft: index > 0 ? "-30px" : "0" }}
-                  className="overflow-hidden rounded-full w-11 h-11 mx-auto shadow-md shadow-black"
-                >
-                  {skeleton ? (
-                    <Skeleton.Avatar active />
-                  ) : (
-                    <img src={user.image} alt="Profile" />
-                  )}
-                </div>
-              ))
-            ) : (
-              <div
-                onClick={toggleAccountModal}
-                className="overflow-hidden rounded-full w-11 h-11 mx-auto shadow-md shadow-black cursor-pointer hover:scale-110 duration-300"
-              >
-                {skeleton ? (
-                  <Skeleton.Avatar active />
-                ) : (
-                  <img
-                    src={
-                      selectedChat.users.find(
-                        (user) => user._id !== userData._id
-                      )?.image || imageLinks.profile
-                    }
-                    alt="Profile"
-                  />
-                )}
-                <AccountModal
-                  visible={isAccountModalVisible}
-                  toggleModal={toggleAccountModal}
-                  user={selectedChat.users.find(
-                    (user) => user._id !== userData._id
-                  )}
+            <div
+              onClick={toggleAccountModal}
+              className="overflow-hidden rounded-full w-11 h-11 mx-auto shadow-md shadow-black cursor-pointer hover:scale-110 duration-300"
+            >
+              {skeleton ? (
+                <Skeleton.Avatar active />
+              ) : (
+                <img
+                  src={
+                    selectedChat.users.find((user) => user._id !== userData._id)
+                      ?.image || imageLinks.profile
+                  }
+                  alt="Profile"
                 />
-              </div>
-            )}
-            <h2 className="text-xl text-gray-300 ml-3 capitalize font-semibold">
-              {selectedChat.isGroupChat
-                ? selectedChat.chatName
-                : selectedChat.users.find((user) => user._id !== userData._id)
-                    ?.name || "Unknown User"}
+              )}
+              <AccountModal
+                visible={isAccountModalVisible}
+                toggleModal={toggleAccountModal}
+                user={selectedChat.users.find(
+                  (user) => user._id !== userData._id
+                )}
+              />
+            </div>
+            <h2 className="text-xl text-gray-300 ml-3 font-semibold">
+              {selectedChat.users.find((user) => user._id !== userData._id)
+                ?.name || "Unknown User"}
             </h2>
           </div>
           <div onClick={() => setSelectedChat()} className="flex">
@@ -210,17 +190,22 @@ function ChatWindow({
           </div>
         </Name>
         {loading ? (
-          <Spin size="large" style={{ alignSelf: "center" }} />
+          <Spin
+            size="large"
+            className="flex h-screen justify-center items-center"
+          />
         ) : (
           <ScrollableFeed>
-            {messages.length < 10 && <div className="h-screen"></div>}
+            {messages.length < 10 && (
+              <div className="md:h-screen md:mt-0 mt-16"></div>
+            )}
             {messages &&
               messages.map((m, i) => (
                 <div className="flex" key={m._id}>
                   {(isSameSender(messages, m, i, userData._id) ||
                     isLastMessage(messages, i, userData._id)) && (
                     <Tooltip title={m.sender.name} placement="top">
-                      <div className="relative overflow-hidden mt-3 mr-1 cursor-pointer rounded-full w-9 h-9 shadow-md shadow-black">
+                      <div className="relative overflow-hidden mt-3 mr-1 cursor-pointer rounded-full w-9 h-9">
                         <img
                           src={m.sender?.image || imageLinks.profile}
                           alt={m.sender.name}
@@ -248,8 +233,23 @@ function ChatWindow({
                     } mt-${
                       isSameUser(messages, m, i, userData._id) ? 1 : 3
                     } rounded-2xl p-2 max-w-3/4`}
+                    style={{ overflowWrap: "break-word" }}
                   >
-                    {m.content}
+                    <Linkify
+                      componentDecorator={(href, text, key) => (
+                        <a
+                          href={href}
+                          key={key}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 hover:underline"
+                        >
+                          {text}
+                        </a>
+                      )}
+                    >
+                      {m.content}
+                    </Linkify>
                     <div className="text-xs font-sans text-gray-500">
                       {timeAgo(m.createdAt)}
                     </div>
@@ -259,17 +259,41 @@ function ChatWindow({
             <div ref={messagesEndRef}></div>
           </ScrollableFeed>
         )}
-        <div className="flex sticky bottom-0 z-30 p-2 gap-x-2">
-          <Input
-            placeholder="Enter a message..."
-            onKeyDown={sendMessages}
-            value={newMessage}
-            onChange={typingHandler}
-            className="flex-grow"
-          />
-          <Button type="primary" className="w-16 h-10" disabled={!newMessage}>
-            Send
-          </Button>
+        <div className="box-border flex md:sticky md:bottom-0 justify-center">
+          <div className="flex md:sticky bottom-0 md:w-full fixed w-[99%] z-30 p-2 gap-x-2">
+            <div className="flex-grow relative">
+              <EmojiInput
+                placeholder="Enter a message..."
+                value={newMessage}
+                onChange={(text) => {
+                  typingHandler(text);
+                }}
+                onEnter={(text) =>
+                  sendMessages({ key: "Enter", target: { value: text } })
+                }
+                className="rounded-full"
+              />
+              {newMessage ? (
+                <div className="absolute z-30 right-10 top-1/2 transform -translate-y-1/2 mr-2">
+                  <Button
+                    style={{ background: "transparent", border: "none" }}
+                    className="rounded-full"
+                    onClick={() =>
+                      sendMessages({
+                        key: "Enter",
+                        target: { value: newMessage },
+                      })
+                    }
+                    icon={
+                      <SendOutlined
+                        style={{ fontSize: "20px", color: "#151415" }}
+                      />
+                    }
+                  />
+                </div>
+              ) : null}
+            </div>
+          </div>
         </div>
       </div>
     </div>

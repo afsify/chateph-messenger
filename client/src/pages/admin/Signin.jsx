@@ -1,13 +1,13 @@
-import { Button, Form, Input } from "antd";
-import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { hideLoading, showLoading } from "../../utils/alertSlice";
-import { adminLogin } from "../../api/services/adminService";
-import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { Button, Form, Input } from "antd";
+import { GoogleLogin } from "@react-oauth/google";
+import { Link, useNavigate } from "react-router-dom";
 import AuthCard from "../../components/auth/AuthCard";
+import { adminLogin } from "../../api/services/adminService";
 import { adminPath, userPath } from "../../routes/routeConfig";
+import { hideLoading, showLoading } from "../../utils/alertSlice";
 
 function Signin() {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ function Signin() {
         toast.success(response.data.message);
         if (response.data.token) {
           localStorage.setItem("adminToken", response.data.token);
-          navigate(`/admin/${adminPath.dashboard}`);
+          navigate(`/admin/${adminPath.userManage}`);
         }
       } else {
         toast.error(response.data.message);
@@ -46,7 +46,7 @@ function Signin() {
       if (response.data.success) {
         toast.success(response.data.message);
         localStorage.setItem("adminToken", response.data.token);
-        navigate(`/admin/${adminPath.dashboard}`);
+        navigate(`/admin/${adminPath.userManage}`);
       } else {
         toast.error(response.data.message);
       }
@@ -113,7 +113,7 @@ function Signin() {
       <div className="mt-3 text-sm flex justify-center items-center text-dark-purple py-4">
         <p>Continue as a user?</p>
         <Link
-          to={userPath.login}
+          to={userPath.start}
           className="pl-1 text-blue-900 font-semibold hover:text-blue-500 hover:underline"
         >
           Login

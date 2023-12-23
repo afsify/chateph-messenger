@@ -1,32 +1,31 @@
-import { useState, useEffect } from "react";
-import {
-  accessChat,
-  createGroup,
-  editGroup,
-  fetchChat,
-  findUser,
-} from "../../api/services/userService";
-import { PlusOutlined } from "@ant-design/icons";
 import toast from "react-hot-toast";
+import { useState, useEffect } from "react";
 import Name from "../../components/user/Name";
-import UserLayout from "../../components/layout/UserLayout";
-import { Button, Tooltip, List, AutoComplete, Skeleton } from "antd";
-import GroupModal from "../../components/user/GroupModal";
+import { FilterOutlined } from "@ant-design/icons";
 import ChatList from "../../components/user/ChatList";
 import ChatWindow from "../../components/user/ChatWindow";
-import DefaultWindow from "../../components/user/DefaultWindow";
+import UserLayout from "../../components/layout/UserLayout";
 import ProfileMenu from "../../components/user/ProfileMenu";
+import DefaultWindow from "../../components/user/DefaultWindow";
+import { List, AutoComplete, Skeleton, Dropdown, Menu } from "antd";
+import {
+  findUser,
+  fetchChat,
+  accessChat,
+} from "../../api/services/userService";
 
 const Home = () => {
   const [users, setUsers] = useState([]);
+  const [filter, setFilter] = useState("all");
   const [chatData, setChatData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [skeleton, setSkeleton] = useState(false);
+  const filterOptions = ["all", "male", "female"];
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedChat, setSelectedChat] = useState();
   const [notification, setNotification] = useState([]);
+  const [filterVisible, setFilterVisible] = useState(false);
   const [isAccountModalVisible, setAccountModalVisible] = useState(false);
-  const [isGroupModalVisible, setGroupModalVisible] = useState(false);
   const logged = localStorage.getItem("userToken") !== null;
   const encodedUserData = localStorage.getItem("userData");
   const userData = encodedUserData ? JSON.parse(atob(encodedUserData)) : null;
@@ -40,7 +39,14 @@ const Home = () => {
     const fetchUsers = async () => {
       try {
         const response = await findUser(searchTerm);
-        setUsers(response.data.data);
+        const filteredUsers = response.data.data.filter((user) => {
+          if (filter === "all") {
+            return true;
+          } else {
+            return user.gender === filter;
+          }
+        });
+        setUsers(filteredUsers);
       } catch (error) {
         console.error(error);
       } finally {
@@ -52,7 +58,7 @@ const Home = () => {
     } else {
       setUsers([]);
     }
-  }, [searchTerm]);
+  }, [searchTerm, filter]);
 
   const handleAccessChat = async (userId) => {
     const existingChatIds = new Set(chatData.map((chat) => chat._id));
@@ -123,47 +129,24 @@ const Home = () => {
     ),
   }));
 
-  const [editData, setEditData] = useState(null);
-
-  const createGroupHandler = async (formData) => {
-    try {
-      const response = await createGroup(formData);
-      setChatData([...chatData, response.data]);
-      setSelectedChat(response.data);
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong");
-    }
+  const handleFilterClick = () => {
+    setFilterVisible(!filterVisible);
   };
 
-  const editGroupHandler = (chatId, chatName, users) => {
-    const groupToEdit = {
-      _id: chatId,
-      chatName: chatName,
-      users: users,
-    };
-    setEditData(groupToEdit);
-    showModal();
+  const handleFilterSelect = (value) => {
+    setFilter(value);
+    setFilterVisible(false);
   };
 
-  const editExistingGroupHandler = async (formData) => {
-    try {
-      const response = await editGroup(editData._id, formData);
-      setChatData([...chatData, response.data]);
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong");
-    }
-  };
-
-  const showModal = () => {
-    setGroupModalVisible(true);
-  };
-
-  const handleCancel = () => {
-    setGroupModalVisible(false);
-    setEditData(null);
-  };
+  const filterMenu = (
+    <Menu onClick={(e) => handleFilterSelect(e.key)}>
+      {filterOptions.map((option) => (
+        <Menu.Item className="text-center capitalize" key={option}>
+          {option}
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
 
   return (
     <UserLayout>
@@ -175,7 +158,7 @@ const Home = () => {
         <div className="bg-light-dark w-full md:w-80 pt-6 px-1 relative duration-300 overflow-y-scroll scrollable-container">
           <Name>
             <AutoComplete
-              className="w-full h-10"
+              className="w-full h-10 relative"
               placeholder="Search User"
               value={searchTerm}
               onChange={(value) => setSearchTerm(value)}
@@ -183,6 +166,19 @@ const Home = () => {
               style={{ maxWidth: "100%" }}
               allowClear
             />
+            <Dropdown
+              className="absolute right-24 "
+              overlay={filterMenu}
+              trigger={["click"]}
+              visible={filterVisible}
+              onVisibleChange={(visible) => setFilterVisible(visible)}
+              placement="bottom"
+            >
+              <FilterOutlined
+                className="hover:text-gray-500 text-lg text-light-gray"
+                onClick={handleFilterClick}
+              />
+            </Dropdown>
             <ProfileMenu userData={userData} logged={logged} />
           </Name>
           <ChatList
@@ -193,24 +189,8 @@ const Home = () => {
             notification={notification}
             setSelectedChat={setSelectedChat}
             setNotification={setNotification}
-            editGroupHandler={editGroupHandler}
           />
         </div>
-        <Tooltip title="Create Group" placement="left">
-          <Button
-            onClick={showModal}
-            size="large"
-            shape="circle"
-            className="absolute bottom-5 right-5 z-40 hover:scale-105 shadow-md shadow-black"
-            icon={<PlusOutlined />}
-          ></Button>
-        </Tooltip>
-        <GroupModal
-          visible={isGroupModalVisible}
-          onCreate={editData ? editExistingGroupHandler : createGroupHandler}
-          onCancel={handleCancel}
-          editData={editData}
-        />
       </aside>
       <main className={`${!selectedChat && "hidden md:block"} w-full`}>
         {selectedChat ? (

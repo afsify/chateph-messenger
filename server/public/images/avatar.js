@@ -1,0 +1,37 @@
+const avatar = {
+  male: [
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319265/CHATHUB/male/zpugpaxmmizucbpvgj8e.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319264/CHATHUB/male/inqiytgsdrxglwq9qxyj.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319263/CHATHUB/male/ip6ywhoswhraqldkaavy.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319263/CHATHUB/male/s2x79ro2kyikg7xyp1ws.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319262/CHATHUB/male/jtedwxexcu957xxyqcgr.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319262/CHATHUB/male/bvl9qhykyr8ecf5dojsn.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319261/CHATHUB/male/onztmzzi6ppxer4quqmd.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319261/CHATHUB/male/w5vkwws1cpcw7lqlermj.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319260/CHATHUB/male/ynrwloxcyk2jzlot1nmy.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319257/CHATHUB/male/i2jib1soi74o9obscpe1.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319260/CHATHUB/male/hg67ylurfyunzfkz56cm.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319259/CHATHUB/male/oqkoojbo1hv96hvctcy2.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319258/CHATHUB/male/q3dwtqgbozf71t3xbej5.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319258/CHATHUB/male/gjz1we0jcf9rqqhjvbqo.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319258/CHATHUB/male/rjmrfoab1ewbosotfjkl.svg",
+  ],
+  female: [
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319230/CHATHUB/female/az8ynsf5wjvad9d2yttv.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319230/CHATHUB/female/a9rwqrifjmeldpkjyx55.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319229/CHATHUB/female/te95tp0rrrgjcieoepej.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319228/CHATHUB/female/ye4fduc0cmfjxb8ww4nk.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319228/CHATHUB/female/uh8rghnc0dl0wlvxnkfg.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319227/CHATHUB/female/dmgqjghfy3llxuaxfww7.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319227/CHATHUB/female/u2xas6z4wib1piphprav.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319225/CHATHUB/female/dgovrjqbsbxggx6fbb6d.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319225/CHATHUB/female/wcnlpok4ynpuecxinqan.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319225/CHATHUB/female/vkjiilejomxf1egrbbq1.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319225/CHATHUB/female/elioqqs6733ds6yeqotf.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319224/CHATHUB/female/svdq2x4owhn7giybcqhc.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319224/CHATHUB/female/uyns8feh4nrvf9cx3g36.svg",
+    "https://res.cloudinary.com/cloudverse/image/upload/v1703319223/CHATHUB/female/bfilozi8afapf4pbc73a.svg",
+  ],
+};
+
+module.exports = avatar;

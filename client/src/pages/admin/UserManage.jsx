@@ -1,45 +1,46 @@
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import Title from "../../components/admin/Title";
+import AdminLayout from "../../components/layout/AdminLayout";
+import { hideLoading, showLoading } from "../../utils/alertSlice";
 import {
-  Button,
+  Empty,
   Modal,
-  Tooltip,
-  Pagination,
-  Select,
   Input,
   Space,
-  Empty,
+  Select,
+  Button,
+  Tooltip,
+  Pagination,
 } from "antd";
-import {
-  CheckCircleFilled,
-  ExclamationCircleFilled,
-  EyeInvisibleOutlined,
-  EyeOutlined,
-  SearchOutlined,
-  CloseCircleOutlined,
-} from "@ant-design/icons";
-import toast from "react-hot-toast";
-import AdminLayout from "../../components/layout/AdminLayout";
 import {
   listUser,
   blockUser,
   unblockUser,
 } from "../../api/services/adminService";
-import Title from "../../components/admin/Title";
-import { useDispatch } from "react-redux";
-import { hideLoading, showLoading } from "../../utils/alertSlice";
+import {
+  EyeOutlined,
+  SearchOutlined,
+  CheckCircleFilled,
+  CloseCircleOutlined,
+  EyeInvisibleOutlined,
+  ExclamationCircleFilled,
+} from "@ant-design/icons";
 
 const { confirm } = Modal;
 const { Option } = Select;
 
 function UserManage() {
   const dispatch = useDispatch();
-  const [users, setUsers] = useState([]);
   const [size] = useState("large");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [users, setUsers] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [sortBy, setSortBy] = useState("");
   const [pageSize, setPageSize] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [filterStatus, setFilterStatus] = useState("all");
-  const [sortBy, setSortBy] = useState("");
 
   useEffect(() => {
     const fetchUsers = async () => {

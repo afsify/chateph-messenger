@@ -11,10 +11,7 @@ const AccountModal = ({ visible, toggleModal, user }) => {
             <img src={user?.image || imageLinks.profile} alt="Account" />
           </div>
         </div>
-        <h2 className="text-2xl text-gray-300 font-semibold capitalize">
-          {user?.name}
-        </h2>{" "}
-        <p className="text-sm text-gray-500">{user?.email}</p>{" "}
+        <h2 className="text-2xl text-gray-300 font-semibold">{user?.name}</h2>{" "}
         <h3 className="text-md text-gray-400 capitalize">{user?.place}</h3>{" "}
       </div>
     </Modal>

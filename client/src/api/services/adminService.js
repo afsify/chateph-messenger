@@ -10,12 +10,6 @@ export const getAdmin = () => {
   return adminAxiosInstance.get("/get-admin");
 };
 
-//? ============================================== Dashboard ==============================================
-
-export const listDashboard = () => {
-  return adminAxiosInstance.get("/list-dashboard");
-};
-
 //? ============================================== User Manage ==============================================
 
 export const listUser = () => {
@@ -28,10 +22,4 @@ export const blockUser = (userId) => {
 
 export const unblockUser = (userId) => {
   return adminAxiosInstance.post(`/unblock-user/${userId}`);
-};
-
-//? =============================================== Settings ===============================================
-
-export const updateAbout = (adminId, values) => {
-  return adminAxiosInstance.put(`/update-about/${adminId}`, values);
 };

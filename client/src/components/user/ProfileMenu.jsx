@@ -1,24 +1,10 @@
-import { useState, useRef, useEffect } from "react";
-import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
-import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
-import { userActions } from "../../utils/userSlice";
-import { userPath } from "../../routes/routeConfig";
-import imageLinks from "../../assets/images/imageLinks";
-import ProfileModal from "./ProfileModal";
 import PropTypes from "prop-types";
+import { useState, useRef, useEffect } from "react";
+import imageLinks from "../../assets/images/imageLinks";
 
 function ProfileMenu({ userData, logged }) {
   const menuRef = useRef();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [isProfileModalVisible, setProfileModalVisible] = useState(false);
-
-  const toggleProfileModal = () => {
-    setProfileModalVisible(!isProfileModalVisible);
-  };
 
   useEffect(() => {
     let handler = (e) => {
@@ -49,43 +35,18 @@ function ProfileMenu({ userData, logged }) {
           } absolute top-0 right-0 mt-16 w-48 p-4 bg-light-gray z-30 text-gray-400 shadow-xl rounded-lg`}
           ref={menuRef}
         >
-          <h3 className="text-center text-lg uppercase font-semibold text-gray-300 ">
+          <div className="overflow-hidden rounded-full w-34 h-34 mx-auto shadow-md shadow-black ">
+            <img src={userData?.image || imageLinks.profile} alt="Profile" />
+          </div>
+          <h3 className="text-center text-lg font-semibold text-gray-300 ">
             {userData.name}
-            <br />
-            <span className="text-sm font-normal normal-case font-sans text-gray-500">
-              {userData.email}
+            <span className="text-sm ml-5 text-gray-500 capitalize">
+              {userData.place}
             </span>
           </h3>
-          <ul className="mt-4 space-y-2">
-            <li
-              onClick={toggleProfileModal}
-              className="flex items-center cursor-pointer px-2 py-1 hover:bg-light-purple hover:text-dark-purple rounded-md space-x-2"
-            >
-              <UserOutlined />
-              <span className="font-medium hover:text-dark-purple">
-                Profile
-              </span>
-            </li>
-            <ProfileModal
-              visible={isProfileModalVisible}
-              toggleModal={toggleProfileModal}
-              userData={userData}
-              setProfileModalVisible={setProfileModalVisible}
-            />
-            <li
-              onClick={() => {
-                localStorage.removeItem("userToken");
-                localStorage.removeItem("userData");
-                dispatch(userActions.userLogout());
-                navigate(userPath.login);
-                toast.success("Logout Success");
-              }}
-              className="flex items-center cursor-pointer px-2 py-1 hover:bg-light-red hover:text-red-500 rounded-md space-x-2"
-            >
-              <LogoutOutlined />
-              <span className="font-medium hover:text-red-500">Logout</span>
-            </li>
-          </ul>
+          <span className="text-xs font-semibold text-center text-gray-700">
+            Accounts vanish in 24 hours!
+          </span>
         </div>
       )}
     </div>

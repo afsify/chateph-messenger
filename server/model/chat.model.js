@@ -24,9 +24,24 @@ const chatSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "users",
     },
+    expiresAt: {
+      type: Date,
+      default: Date.now() + 24 * 60 * 60 * 1000,
+    },
   },
   { timestamps: true }
 );
+
+chatSchema.pre("find", function () {
+  this.expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+});
+
+chatSchema.pre("deleteOne", { document: true }, async function (next) {
+  if (this.expiresAt <= new Date()) {
+    await this.model.deleteOne({ _id: this._id });
+  }
+  next();
+});
 
 const chatModel = mongoose.model("chats", chatSchema);
 

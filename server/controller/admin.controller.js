@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const adminModel = require("../model/admin.model");
 const userModel = require("../model/user.model");
+const adminModel = require("../model/admin.model");
 
 //! ============================================== Verify Login ==============================================
 
@@ -60,44 +60,6 @@ const getAdmin = async (req, res, next) => {
         .status(500)
         .send({ auth: false, success: false, message: "Admin Not Found" });
     }
-  } catch (error) {
-    next(error);
-    res.status(500).json({ success: false, message: "Error Occurred" });
-  }
-};
-
-//! ============================================= List Dashboard =============================================
-
-const listDashboard = async (req, res, next) => {
-  try {
-    const orders = await orderModel
-      .find()
-      .populate({ path: "user", select: "name image" })
-      .exec();
-    const orderCount = await orderModel.countDocuments();
-    const courseCount = await courseModel.countDocuments();
-    const primeMembersCount = await userModel.countDocuments({ prime: true });
-    const normalUsersCount = await userModel.countDocuments({ prime: false });
-    const totalMembersCount = await userModel.countDocuments();
-    const courseProfit = orders.reduce((acc, order) => acc + order.price, 0);
-    const primeProfit = primeMembersCount * 399;
-    const totalProfit = courseProfit + primeProfit;
-    const data = {
-      orders,
-      orderCount,
-      courseCount,
-      primeMembersCount,
-      normalUsersCount,
-      totalMembersCount,
-      courseProfit,
-      primeProfit,
-      totalProfit,
-    };
-    res.status(200).json({
-      message: "Dashboard Fetched",
-      success: true,
-      data: data,
-    });
   } catch (error) {
     next(error);
     res.status(500).json({ success: false, message: "Error Occurred" });
@@ -172,32 +134,10 @@ const unblockUser = async (req, res, next) => {
   }
 };
 
-//! ============================================== Update About ==============================================
-
-const updateAbout = async (req, res, next) => {
-  try {
-    const updatedAdmin = await adminModel.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    return res.status(200).send({
-      success: true,
-      data: updatedAdmin,
-      message: "Update Success",
-    });
-  } catch (error) {
-    next(error);
-    res.status(500).json({ success: false, message: "Error Occurred" });
-  }
-};
-
 module.exports = {
   signin,
   getAdmin,
-  listDashboard,
   listUser,
   blockUser,
   unblockUser,
-  updateAbout,
 };
