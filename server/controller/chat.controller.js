@@ -47,22 +47,22 @@ const accessChat = async (req, res) => {
 
 const fetchChat = async (req, res) => {
   try {
-    chatModel
+    const chats = await chatModel
       .find({ users: { $elemMatch: { $eq: req.userId } } })
       .populate("users", "-password")
       .populate("groupAdmin", "-password")
       .populate("latestMessage")
-      .sort({ updatedAt: -1 })
-      .then(async (results) => {
-        results = await userModel.populate(results, {
-          path: "latestMessage.sender",
-          select: "name image email",
-        });
-        res.status(200).send(results);
-      });
+      .sort({ updatedAt: -1 });
+    const populatedChats = await userModel.populate(chats, {
+      path: "latestMessage.sender",
+      select: "name image email",
+    });
+    const filteredChats = populatedChats.filter((chat) => {
+      return chat.users.length > 1;
+    });
+    res.status(200).send(filteredChats);
   } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
+    res.status(400).send({ error: error.message });
   }
 };
 

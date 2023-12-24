@@ -22,26 +22,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "unblocked",
     },
-    expiresAt: {
-      type: Date,
-      default: Date.now() + 24 * 60 * 60 * 1000,
-    },
   },
   {
     timestamps: true,
   }
 );
 
-userSchema.pre("find", function () {
-  this.expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
-});
-
-userSchema.pre("deleteOne", { document: true }, async function (next) {
-  if (this.expiresAt <= new Date()) {
-    await this.model.deleteOne({ _id: this._id });
-  }
-  next();
-});
+userSchema.index({ createdAt: 1 }, { expireAfterSeconds: 24 * 60 * 60 });
 
 const userModel = mongoose.model("users", userSchema);
 

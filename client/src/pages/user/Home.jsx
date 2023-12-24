@@ -115,9 +115,7 @@ const Home = () => {
             }
             title={
               <div className="flex-col items-center">
-                <h1 className="text-[13px] font-semibold">
-                  {user.name}
-                </h1>
+                <h1 className="text-[13px] font-semibold">{user.name}</h1>
                 <h1 className="text-xs text-gray-500 font-sans">
                   {user.place}
                 </h1>
@@ -139,7 +137,7 @@ const Home = () => {
   };
 
   const filterMenu = (
-    <Menu onClick={(e) => handleFilterSelect(e.key)}>
+    <Menu selectedKeys={[filter]} onClick={(e) => handleFilterSelect(e.key)}>
       {filterOptions.map((option) => (
         <Menu.Item className="text-center capitalize" key={option}>
           {option}
@@ -175,7 +173,11 @@ const Home = () => {
               placement="bottom"
             >
               <FilterOutlined
-                className="hover:text-gray-500 text-lg text-light-gray"
+                className={`hover:text-gray-500 text-lg ${
+                  filter === "male" || filter === "female"
+                    ? "text-[#081A51]"
+                    : "text-light-gray"
+                }`}
                 onClick={handleFilterClick}
               />
             </Dropdown>

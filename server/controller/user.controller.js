@@ -81,7 +81,6 @@ const getUser = async (req, res, next) => {
 
 const findUser = async (req, res, next) => {
   try {
-    console.log("findUser");
     const keyword = req.query.search
       ? {
           $or: [

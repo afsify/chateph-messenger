@@ -40,7 +40,7 @@ function ChatList({
                     {skeleton ? (
                       <Skeleton.Input style={{ width: 100 }} active />
                     ) : (
-                      receiver[0].name
+                      receiver[0]?.name
                     )}
                   </h1>
                   {chat.latestMessage && (
@@ -61,7 +61,7 @@ function ChatList({
                             : chat.latestMessage.content}
                         </>
                       ) : (
-                        <span className="capitalize">receiver[0].place</span>
+                        <span className="capitalize">receiver[0]?.place</span>
                       )}
                     </p>
                   )}
