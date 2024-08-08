@@ -1,12 +1,12 @@
-# ChatHub Messenger
+# Chateph Messenger
 
-Welcome to ChatHub Messenger - where instant connections come to life! Engage in real-time, one-day chat sessions with strangers effortlessly, fostering a dynamic and ephemeral chat environment. Here are the key features that make ChatHub Messenger stand out:
+Welcome to Chateph Messenger - where instant connections come to life! Engage in real-time, one-day chat sessions with strangers effortlessly, fostering a dynamic and ephemeral chat environment. Here are the key features that make Chateph Messenger stand out:
 
 ## Features
 
 - **Instant Connections:** Seamlessly connect with strangers in real-time, engaging in one-day chat sessions that add an element of excitement to every conversation.
 - **Anonymous Entry:** Begin chatting with just a username, ensuring privacy and allowing users to enjoy the chat experience without sharing personal details.
-- **Ephemeral Messaging:** Embrace the ephemeral nature of ChatHub Messenger, where accounts automatically vanish after 24 hours. This ensures a fresh and dynamic chat environment, promoting spontaneous and lively conversations.
+- **Ephemeral Messaging:** Embrace the ephemeral nature of Chateph Messenger, where accounts automatically vanish after 24 hours. This ensures a fresh and dynamic chat environment, promoting spontaneous and lively conversations.
 - **Live Chat:** Engage in real-time conversations with other users through the live chat feature.
 - **Responsive Dark Theme UI:** Enjoy a visually appealing and responsive dark theme UI that enhances the overall chat experience, making it easy on the eyes and suitable for different devices.
 - **Active Users in the Same Timeframe:** Connect with users who are active within the same 24-hour timeframe, creating a lively and engaging chat community.
@@ -34,14 +34,14 @@ Welcome to ChatHub Messenger - where instant connections come to life! Engage in
 
 ## Access the live project
 
-The live project can be accessed at [https://chathubmessenger.vercel.app](https://chathubmessenger.vercel.app)
+The live project can be accessed at [https://chateph.vercel.app](https://chateph.vercel.app)
 
 ## Getting Started
 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/mhdafs/chathub-messenger.git
+   git clone https://github.com/afsify/chateph-messenger.git
    ```
 
 2. **Set up environment variables:**

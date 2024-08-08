@@ -48,7 +48,7 @@ function AdminLayout({ children }) {
                 !open && "rotate-[360deg] scale-0"
               }`}
             >
-              ChatHub
+              Chateph
             </h1>
           </div>
           <ul className="pt-2">

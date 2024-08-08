@@ -15,8 +15,10 @@ function DefaultWindow({ skeleton }) {
                 <img src={imageLinks.logo} alt="Logo" />
               )}
             </div>
-            <h1 className="text-2xl mt-2">Welcome to ChatHub</h1>
-            <h1 className="text-xs text-center mt-1">Chats and accounts last only 24 hours</h1>
+            <h1 className="text-2xl mt-2">Welcome to Chateph</h1>
+            <h1 className="text-xs text-center mt-1">
+              Chats and accounts last only 24 hours
+            </h1>
           </div>
         </div>
       </div>

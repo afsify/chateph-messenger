@@ -51,7 +51,7 @@ function Start() {
   return (
     <AuthCard>
       <h2 className="font-bold text-3xl text-dark-purple hover:text-blue-500 cursor-pointer">
-        ChatHub
+        Chateph
       </h2>
       <p className="text-sm mt-3 text-dark-purple">
         Connect Today, Cherish the Moment Tomorrow
